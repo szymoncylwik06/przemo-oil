@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 
 /**
- * Dynamiczny robots.txt — odsyła do sitemap pod aktualną domeną (`site`).
+ * Dynamiczny robots.txt - odsyła do sitemap pod aktualną domeną (`site`).
  * Dzięki temu po zmianie domeny nic nie trzeba poprawiać ręcznie.
  */
 export const GET: APIRoute = ({ site }) => {

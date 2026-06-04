@@ -1,4 +1,4 @@
-# Normalizacja końców linii — spójny LF w repo, CRLF lokalnie na Windows.
+# Normalizacja końców linii - spójny LF w repo, CRLF lokalnie na Windows.
 * text=auto eol=lf
 
 # Pliki binarne (bez normalizacji).

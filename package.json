@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Strona wizytówkowa Przemo-Oil — oleje, płyny i smary, Siedlce",
+  "description": "Strona wizytówkowa Przemo-Oil - oleje, płyny i smary, Siedlce",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

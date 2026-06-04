@@ -10,7 +10,7 @@ const SITE = 'https://przemo-oil.vercel.app';
 export default defineConfig({
   site: SITE,
   integrations: [sitemap()],
-  // Pasek narzędzi dev (logo Astro w rogu) — wyłączony, też lokalnie.
+  // Pasek narzędzi dev (logo Astro w rogu) - wyłączony, też lokalnie.
   devToolbar: { enabled: false },
   vite: {
     plugins: [tailwindcss()],
