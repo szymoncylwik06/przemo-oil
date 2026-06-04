@@ -9,7 +9,7 @@ export const site = {
   legalName: "PRZEMO-OIL",
   tagline: "Oleje · płyny · smary",
   shortDesc: "Sklep z olejami, płynami i smarami w Siedlcach. Sprawdzone marki, hurt i detal.",
-  domain: "https://przemo-oil.pl",
+  domain: "https://przemo-oil.vercel.app",
 } as const;
 
 export const contact = {

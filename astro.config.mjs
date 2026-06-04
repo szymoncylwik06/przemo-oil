@@ -2,8 +2,9 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// Docelowa domena produkcyjna — zaktualizować po wyborze domeny / Vercela.
-const SITE = 'https://przemo-oil.pl';
+// Domena produkcyjna. Po podpięciu własnej domeny (np. https://przemo-oil.pl)
+// zmienić tutaj i w src/data/site.ts -> domain, następnie git push (auto-redeploy).
+const SITE = 'https://przemo-oil.vercel.app';
 
 // https://astro.build/config
 export default defineConfig({
