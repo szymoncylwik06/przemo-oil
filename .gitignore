@@ -32,6 +32,11 @@ Thumbs.db
 .playwright-mcp/
 tmp_*.mjs
 tmp_*.log
+# zrzuty ekranu z testów (w katalogu głównym)
+/*.png
+
+# Vercel
+.vercel
 
 # lokalna konfiguracja Claude Code
 .claude/
