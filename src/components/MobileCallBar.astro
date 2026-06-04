@@ -1,0 +1,56 @@
+---
+import Icon from "./Icon.astro";
+import { contact } from "../data/site";
+const mapDir = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(contact.mapQuery)}`;
+---
+
+<div class="callbar" data-callbar aria-hidden="true">
+  <a href={contact.phoneHref} class="callbar__btn callbar__btn--call" data-call="mobilebar">
+    <Icon name="phone" size={20} />
+    <span>Zadzwoń</span>
+  </a>
+  <a href={mapDir} target="_blank" rel="noopener noreferrer" class="callbar__btn callbar__btn--route">
+    <Icon name="route" size={20} />
+    <span>Dojazd</span>
+  </a>
+</div>
+
+<style>
+  .callbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(110%);
+    transition: transform 0.35s var(--ease-out-expo);
+    box-shadow: 0 -12px 30px -16px rgba(0, 0, 0, 0.6);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  .callbar.is-visible { transform: translateY(0); }
+
+  .callbar__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 1rem;
+    font-family: var(--font-accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 1.02rem;
+    color: #fff;
+  }
+  .callbar__btn--call { background: var(--color-flame-500); }
+  .callbar__btn--call:active { background: var(--color-flame-600); }
+  .callbar__btn--route { background: var(--color-navy-800); }
+
+  @media (min-width: 920px) {
+    .callbar { display: none; }
+  }
+</style>

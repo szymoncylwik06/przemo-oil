@@ -1,0 +1,130 @@
+---
+import "@fontsource/barlow-condensed/500.css";
+import "@fontsource/barlow-condensed/600.css";
+import "@fontsource/barlow-condensed/700.css";
+import "@fontsource/barlow-semi-condensed/600.css";
+import "@fontsource-variable/inter";
+import "../styles/global.css";
+import { site, contact, hours } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `Przemo-Oil - oleje, płyny i smary | Siedlce, ul. Zambrowska 42`,
+  description = `Sklep Przemo-Oil w Siedlcach: oleje silnikowe, przekładniowe i hydrauliczne, płyny chłodnicze, do spryskiwaczy i smary. Sprawdzone marki - Castrol, Mobil, Shell, Total i inne. Hurt i detal. Tel. 604 473 573.`,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.domain).href;
+const ogImage = new URL("/og-image.jpg", site.domain).href;
+
+// Dane strukturalne - LocalBusiness (sklep z częściami/eksploatacją).
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AutoPartsStore",
+  name: site.legalName,
+  description: site.shortDesc,
+  url: site.domain,
+  telephone: contact.phoneRaw,
+  email: contact.email,
+  image: ogImage,
+  priceRange: "$$",
+  currenciesAccepted: "PLN",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: contact.street,
+    postalCode: contact.postal,
+    addressLocality: contact.city,
+    addressRegion: contact.region,
+    addressCountry: "PL",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: contact.geo.lat,
+    longitude: contact.geo.lng,
+  },
+  areaServed: ["Siedlce", "powiat siedlecki", "mazowieckie"],
+  sameAs: [contact.facebook],
+  // UWAGA: godziny to placeholder do potwierdzenia z klientem.
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:00",
+      closes: "18:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Saturday",
+      opens: "08:00",
+      closes: "14:00",
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0d1b3e" />
+    <meta name="author" content="SC Digital Marketing" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content="Przemo-Oil" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Wczesne oznaczenie obsługi JS (sterowanie animacjami reveal) -->
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Przejdź do treści</a>
+    <slot />
+
+    <style>
+      .skip-link {
+        position: fixed;
+        left: 1rem;
+        top: -120px;
+        z-index: 200;
+        background: var(--color-navy-800);
+        color: #fff;
+        padding: 0.75rem 1.25rem;
+        border-radius: 2px;
+        font-family: var(--font-accent);
+        font-weight: 600;
+        transition: top 0.2s ease;
+      }
+      .skip-link:focus {
+        top: 1rem;
+      }
+    </style>
+  </body>
+</html>

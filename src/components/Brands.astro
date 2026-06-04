@@ -1,0 +1,110 @@
+---
+import Icon from "./Icon.astro";
+import { brands } from "../data/site";
+---
+
+<section id="marki" class="brands" aria-labelledby="brands-title">
+  <div class="shell">
+    <header class="brands__head">
+      <p class="kicker" data-reveal>Marki partnerskie</p>
+      <h2 id="brands-title" class="section-title brands__title" data-reveal style="--reveal-delay:80ms">
+        Współpracujemy tylko<br /><span class="brands__accent">ze sprawdzonymi markami</span>
+      </h2>
+      <p class="brands__sub" data-reveal style="--reveal-delay:160ms">
+        U nas kupisz oryginalne produkty uznanych producentów olejów i chemii motoryzacyjnej.
+      </p>
+    </header>
+
+    <ul class="brands__grid" data-reveal style="--reveal-delay:200ms">
+      {brands.map((b) => (
+        <li class="brand">
+          <span class="brand__name">{b}</span>
+        </li>
+      ))}
+    </ul>
+
+    <p class="brands__note" data-reveal>
+      <Icon name="shield" size={18} />
+      Oryginalne oleje i płyny - pewność jakości dla Twojego silnika.
+    </p>
+  </div>
+</section>
+
+<style>
+  .brands {
+    background:
+      linear-gradient(var(--color-paper-200), var(--color-paper));
+    padding: clamp(4.5rem, 9vw, 7rem) 0;
+  }
+  .brands__head { text-align: center; max-width: 720px; margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); }
+  .brands__head .kicker { justify-content: center; }
+  .brands__head .kicker::before { display: none; }
+  .brands__title { color: var(--color-navy-900); margin-top: 0.8rem; }
+  .brands__accent { color: var(--color-flame-500); }
+  .brands__sub { margin-top: 1.1rem; color: var(--color-ink-soft); font-size: 1.05rem; }
+
+  .brands__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  @media (min-width: 600px) { .brands__grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 920px) { .brands__grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; } }
+
+  .brand {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 96px;
+    background: #fff;
+    border: 1px solid var(--color-steel-200);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s var(--ease-out-expo),
+                box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .brand::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--color-flame-500);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-out-expo);
+  }
+  .brand__name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    color: var(--color-steel-500);
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  .brand:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--color-flame-500) 40%, transparent);
+    box-shadow: 0 22px 40px -26px rgba(13, 27, 62, 0.6);
+  }
+  .brand:hover::before { transform: scaleX(1); }
+  .brand:hover .brand__name { color: var(--color-navy-900); transform: scale(1.04); }
+
+  .brands__note {
+    margin: clamp(2rem, 4vw, 3rem) auto 0;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    justify-content: center;
+    color: var(--color-ink-soft);
+    font-family: var(--font-accent);
+    font-weight: 600;
+    font-size: 0.98rem;
+  }
+  .brands__note :global(svg) { color: var(--color-flame-600); }
+</style>

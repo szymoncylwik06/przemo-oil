@@ -1,0 +1,138 @@
+---
+import { Image, getImage } from "astro:assets";
+import Icon from "./Icon.astro";
+import { galleryImages, contact } from "../data/site";
+
+// Ładujemy wszystkie grafiki FB i mapujemy po nazwie pliku.
+const modules = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/facebook/*.jpg",
+  { eager: true }
+);
+const byName = new Map<string, ImageMetadata>();
+for (const [path, mod] of Object.entries(modules)) {
+  const file = path.split("/").pop()!;
+  byName.set(file, mod.default);
+}
+
+// Dla każdej pozycji: miniatura (Image) + większy obraz do lightboxa.
+const items = await Promise.all(
+  galleryImages.map(async (g) => {
+    const meta = byName.get(g.src)!;
+    const full = await getImage({ src: meta, width: 1400, format: "webp" });
+    return { ...g, meta, full: full.src };
+  })
+);
+---
+
+<section id="galeria" class="gallery" aria-labelledby="gallery-title">
+  <div class="shell">
+    <header class="gallery__head">
+      <div>
+        <p class="kicker" data-reveal>Galeria</p>
+        <h2 id="gallery-title" class="section-title gallery__title" data-reveal style="--reveal-delay:80ms">
+          Z naszego Facebooka
+        </h2>
+      </div>
+      <a href={contact.facebook} target="_blank" rel="noopener noreferrer" class="gallery__fb link-underline" data-reveal style="--reveal-delay:160ms">
+        <Icon name="facebook" size={20} /> Zobacz profil na Facebooku
+      </a>
+    </header>
+
+    <div class="gallery__grid" data-gallery>
+      {items.map((it, i) => (
+        <button
+          type="button"
+          class="gallery__item"
+          data-reveal
+          style={`--reveal-delay:${(i % 3) * 80}ms`}
+          data-full={it.full}
+          data-caption={it.alt}
+          aria-label={`Powiększ: ${it.alt}`}
+        >
+          <Image
+            src={it.meta}
+            alt={it.alt}
+            widths={[320, 600]}
+            sizes="(max-width:600px) 90vw, (max-width:1000px) 45vw, 30vw"
+            loading="lazy"
+          />
+          <span class="gallery__zoom" aria-hidden="true"><Icon name="expand" size={20} /></span>
+        </button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .gallery {
+    background: var(--color-paper);
+    padding: clamp(4.5rem, 9vw, 7rem) 0;
+  }
+  .gallery__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+  .gallery__title { color: var(--color-navy-900); margin-top: 1rem; }
+  .gallery__fb {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-accent);
+    font-weight: 600;
+    color: var(--color-navy-800);
+  }
+  .gallery__fb :global(svg) { color: #1877f2; }
+
+  .gallery__grid {
+    columns: 1;
+    column-gap: 1rem;
+  }
+  @media (min-width: 600px) { .gallery__grid { columns: 2; } }
+  @media (min-width: 1000px) { .gallery__grid { columns: 3; } }
+
+  .gallery__item {
+    display: block;
+    width: 100%;
+    margin: 0 0 1rem;
+    padding: 0;
+    border: none;
+    background: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    break-inside: avoid;
+    box-shadow: 0 12px 30px -22px rgba(13, 27, 62, 0.6);
+    transition: transform 0.35s var(--ease-out-expo), box-shadow 0.35s ease;
+  }
+  .gallery__item :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s var(--ease-out-expo), filter 0.35s ease;
+  }
+  .gallery__item:hover { transform: translateY(-4px); box-shadow: 0 26px 44px -24px rgba(13, 27, 62, 0.7); }
+  .gallery__item:hover :global(img) { transform: scale(1.05); }
+
+  .gallery__zoom {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: color-mix(in srgb, var(--color-navy-950) 70%, transparent);
+    border-radius: 3px;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .gallery__item:hover .gallery__zoom,
+  .gallery__item:focus-visible .gallery__zoom { opacity: 1; transform: translateY(0); }
+</style>

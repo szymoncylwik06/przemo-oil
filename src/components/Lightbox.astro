@@ -1,0 +1,111 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<div class="lb" data-lightbox hidden aria-hidden="true">
+  <div class="lb__backdrop" data-lb-close></div>
+  <div class="lb__dialog" role="dialog" aria-modal="true" aria-label="Podgląd grafiki">
+    <button type="button" class="lb__btn lb__close" data-lb-close aria-label="Zamknij">
+      <Icon name="close" size={26} />
+    </button>
+    <button type="button" class="lb__btn lb__nav lb__prev" data-lb-prev aria-label="Poprzednia">
+      <Icon name="arrow-right" size={26} />
+    </button>
+    <figure class="lb__figure">
+      <img class="lb__img" data-lb-img src="" alt="" />
+      <figcaption class="lb__caption" data-lb-caption></figcaption>
+    </figure>
+    <button type="button" class="lb__btn lb__nav lb__next" data-lb-next aria-label="Następna">
+      <Icon name="arrow-right" size={26} />
+    </button>
+  </div>
+</div>
+
+<style>
+  .lb {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .lb[hidden] { display: none; }
+  .lb.is-open { opacity: 1; }
+  .lb__backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--color-navy-950) 88%, transparent);
+    backdrop-filter: blur(6px);
+  }
+  .lb__dialog {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: min(1100px, 96vw);
+    max-height: 92svh;
+  }
+  .lb__figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    max-height: 92svh;
+  }
+  .lb__img {
+    max-width: 100%;
+    max-height: 80svh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.8);
+    transform: scale(0.97);
+    transition: transform 0.3s var(--ease-out-expo);
+  }
+  .lb.is-open .lb__img { transform: scale(1); }
+  .lb__caption {
+    color: var(--color-steel-300);
+    font-family: var(--font-accent);
+    font-size: 0.95rem;
+    text-align: center;
+    max-width: 60ch;
+  }
+
+  .lb__btn {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .lb__btn:hover { background: var(--color-flame-500); border-color: var(--color-flame-500); }
+  .lb__close {
+    position: absolute;
+    top: -3.4rem;
+    right: 0;
+  }
+  .lb__prev :global(svg) { transform: rotate(180deg); }
+
+  @media (max-width: 720px) {
+    .lb__nav {
+      position: absolute;
+      bottom: -3.4rem;
+      z-index: 2;
+    }
+    .lb__prev { left: 30%; }
+    .lb__next { right: 30%; }
+    .lb__dialog { flex-direction: column; }
+  }
+</style>

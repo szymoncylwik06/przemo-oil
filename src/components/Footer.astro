@@ -1,0 +1,120 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+import { contact, nav } from "../data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="footer noise">
+  <div class="footer__accent" aria-hidden="true"></div>
+  <div class="shell footer__inner">
+    <div class="footer__brand">
+      <Logo tone="light" />
+      <p class="footer__tag">Oleje · płyny · smary. Hurt i detal w Siedlcach.</p>
+      <a href={contact.facebook} target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="Facebook Przemo-Oil">
+        <Icon name="facebook" size={20} />
+      </a>
+    </div>
+
+    <nav class="footer__nav" aria-label="Stopka">
+      <span class="footer__heading">Strona</span>
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <div class="footer__contact">
+      <span class="footer__heading">Kontakt</span>
+      <a href={contact.phoneHref} data-call="footer"><Icon name="phone" size={16} /> {contact.phoneDisplay}</a>
+      <a href={contact.emailHref}><Icon name="mail" size={16} /> {contact.email}</a>
+      <span class="footer__addr"><Icon name="pin" size={16} /> {contact.street}, {contact.postal} {contact.city}</span>
+    </div>
+  </div>
+
+  <div class="footer__bar">
+    <div class="shell footer__bar-inner">
+      <p>© {year} Przemo-Oil. Wszelkie prawa zastrzeżone.</p>
+      <p class="footer__credit">
+        Wykonanie:
+        <a href="https://www.facebook.com/profile.php?id=100063367801179" rel="noopener noreferrer">SC Digital Marketing</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    background: var(--color-navy-950);
+    color: var(--color-steel-300);
+    padding-top: 3.5rem;
+  }
+  .footer__accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(-45deg, var(--color-flame-500) 0 14px, transparent 14px 28px);
+    opacity: 0.9;
+  }
+  .footer__inner {
+    display: grid;
+    gap: 2.5rem;
+    padding-bottom: 3rem;
+  }
+  @media (min-width: 720px) {
+    .footer__inner { grid-template-columns: 1.6fr 1fr 1.2fr; gap: 2rem; }
+  }
+
+  .footer__tag { margin: 1rem 0 1.2rem; max-width: 30ch; font-size: 0.96rem; }
+  .footer__social {
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .footer__social:hover { background: #1877f2; border-color: #1877f2; transform: translateY(-2px); }
+
+  .footer__heading {
+    display: block;
+    font-family: var(--font-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.74rem;
+    color: var(--color-flame-400);
+    margin-bottom: 1rem;
+  }
+  .footer__nav, .footer__contact { display: flex; flex-direction: column; gap: 0.65rem; }
+  .footer__nav a, .footer__contact a, .footer__addr {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-steel-300);
+    font-size: 0.96rem;
+    transition: color 0.2s ease;
+  }
+  .footer__nav a:hover, .footer__contact a:hover { color: #fff; }
+  .footer__contact :global(svg), .footer__addr :global(svg) { color: var(--color-flame-500); flex: none; }
+
+  .footer__bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.3rem 0;
+  }
+  .footer__bar-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    justify-content: space-between;
+    font-size: 0.84rem;
+    color: var(--color-steel-400);
+  }
+  .footer__bar-inner p { margin: 0; }
+  .footer__credit a {
+    color: var(--color-flame-400);
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+  .footer__credit a:hover { color: var(--color-flame-500); }
+</style>

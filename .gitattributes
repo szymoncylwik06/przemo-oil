@@ -1,0 +1,11 @@
+# Normalizacja końców linii — spójny LF w repo, CRLF lokalnie na Windows.
+* text=auto eol=lf
+
+# Pliki binarne (bez normalizacji).
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
